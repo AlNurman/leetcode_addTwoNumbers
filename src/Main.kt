@@ -1,12 +1,11 @@
-class ListNode(var value: Int){
+class ListNode(var `val`: Int){
 	var next: ListNode?=null
-	fun getVal()=value?:0
 }
 
 fun printList(head: ListNode?) {
 	var current = head
 	while (current != null) {
-		print("${current.value} -> ")
+		print("${current.`val`} -> ")
 		current = current.next
 	}
 	println("null")
@@ -22,42 +21,45 @@ fun addToEnd(head: ListNode?, value: Int){
 	}
 }
 fun addTwoNumbers(l1: ListNode?, l2: ListNode?): ListNode? {
-	var ret: ListNode?=null
-	var current1=l1
-	var current2=l2
-	var r=0
-	var r_next=0
-	while((current1!=null) or(current2!=null)){
-		r= (current1?.getVal()?.plus(current2?.getVal()?:0) ?: 0) +r_next
-		r_next=0
-		if (r>9) {
-			r=r-10
-			r_next=1
+	var ret_head: ListNode?=null
+	var ret_c: ListNode?=null
+	var c1:ListNode?=l1
+	var c2:ListNode?=l2
+	var sum=0
+	var sum_next=0
+	while((c1!=null)||(c2!=null)||sum_next>0){
+		sum=sum_next
+		if(c1!=null){
+			sum+=c1.`val`
+			c1=c1.next
 		}
-		if (ret==null) {
-			ret = ListNode(r)
+		if(c2!=null){
+			sum+=c2.`val`
+			c2=c2.next
+		}
+		sum_next = sum/10
+		sum = sum % 10
+		if (ret_head==null) {
+			ret_head = ListNode(sum)
+			ret_c=ret_head
 		}else{
-			addToEnd(ret,r)
+			val node=ListNode(sum)
+			ret_c?.next = node
+			ret_c=ret_c?.next
 		}
-		if( current1 !=null){
-			current1=current1.next
-		}
-		if( current2 !=null){
-			current2=current2.next
-		}
-
 	}
-	return ret
+	return ret_head
 }
 fun main() {
 	val node1 = ListNode(2)
 	addToEnd(node1,4)
-	addToEnd(node1,3)
-	addToEnd(node1,3)
-	addToEnd(node1,3)
+	addToEnd(node1,9)
 	val node2 = ListNode(5)
 	addToEnd(node2,6)
 	addToEnd(node2,4)
+	addToEnd(node2,9)
 	val resultNode = addTwoNumbers(node1, node2)
+	printList(node1)
+	printList(node2)
 	printList(resultNode)
 }
