@@ -8,6 +8,7 @@ fun printList(head: ListNode?) {
 		print("${current.`val`} -> ")
 		current = current.next
 	}
+
 	println("null")
 }
 fun addToEnd(head: ListNode?, value: Int){
